@@ -2,7 +2,7 @@
 import pygame, sys
 from pygame.locals import *
 
-def drawGrid( WINDOWWIDTH, WINDOWHEIGHT,screen):
+def drawGrid( WINDOWWIDTH, WINDOWHEIGHT,screen,boxsize):
     WHITE = (255,255,255)
     RED   = (255,  0,  0)  
     BLUE  = (  0,  0,255)
@@ -10,8 +10,8 @@ def drawGrid( WINDOWWIDTH, WINDOWHEIGHT,screen):
     GREEN = (  0,255,  0)
 
     
-    linespacex = 20
-    linespacey = 20
+    linespacex = boxsize
+    linespacey = boxsize
     GRIDLINES = WINDOWWIDTH / linespacex
     teller = 0
     positionx = 0
