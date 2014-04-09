@@ -17,32 +17,36 @@ RED   = (255,  0,  0)
 BLUE  = (  0,  0,255)
 BLACK = (  0,  0,  0)
 
-boxsize = 20
-snakex = 000
-snakey = 0
-mov_speed = boxsize
-direction = 'right'
+class Snake(object):
+    def __init__(self):
+        self.boxsize = 20
+        self.snakex = 000
+        self.snakey = 0
+        self.mov_speed = self.boxsize
+        self.direction = 'right'
 
-grid.drawGrid(WINDOWWIDTH, WINDOWHEIGHT,screen,boxsize)
-
-def detectCollision(snakex,snakey,WINDOWWIDTH,WINDOWHEIGHT, boxsize):
-    if snakex > WINDOWWIDTH - boxsize:
-        snakex = WINDOWWIDTH - boxsize
-        return snakex, snakey
-
-    if snakex < 0:
-        snakex = 0
-        return snakex, snakey
-
-    if snakey < 0:
-        snakey = 0
-        return snakex, snakey
-
-    if snakey > WINDOWHEIGHT - boxsize:
-        snakey = WINDOWHEIGHT - boxsize
-        return snakex, snakey
+    def drawSelf(self,screen, color):
+        pygame.draw.rect(screen, BLUE, (self.snakex, self.snakey, self.boxsize, self.boxsize))
 
         
+    def detectWall(self, windowx, windowy):
+        if self.snakex > windowx - self.boxsize:
+            self.snakex = windowx - self.boxsize
+            return self.snakex, self.snakey
+        if self.snakex < 0:
+            self.snakex = 0
+            return self.snakex, self.snakey
+        if self.snakey < 0:
+            self.snakey = 0
+            return self.snakex, self.snakey
+        if self.snakey > windowy - self.boxsize:
+            self.snakey = windowy - self.boxsize
+            return self.snakex, self.snakey
+
+snake = Snake()
+grid.drawGrid(WINDOWWIDTH, WINDOWHEIGHT,screen,snake.boxsize)
+
+
 while True:
     for event in pygame.event.get():
         key = pygame.key.get_pressed()
@@ -50,26 +54,27 @@ while True:
             pygame.quit()
             sys.exit()
         if key[K_RIGHT]:
-            direction = 'right'
+            snake.direction = 'right'
         if key[K_UP]:
-            direction = 'up'
+            snake.direction = 'up'
         if key[K_DOWN]:
-            direction = 'down'
+            snake.direction = 'down'
         if key[K_LEFT]:
-            direction = 'left'
+            snake.direction = 'left'
 
-    if direction == 'right':
-        snakex = snakex + mov_speed
-    if direction == 'left':
-        snakex = snakex - mov_speed
-    if direction == 'up':
-        snakey = snakey - mov_speed
-    if direction == 'down':
-        snakey = snakey + mov_speed
-    playbox = pygame.draw.rect(screen, BLUE, (snakex, snakey, boxsize, boxsize))
-    hit = detectCollision(snakex,snakey,WINDOWWIDTH,WINDOWHEIGHT,boxsize)
-    if hit != None:
-        snakex = hit[0]
-        snakey = hit[1]
+    if snake.direction == 'right':
+        snake.snakex = snake.snakex + snake.mov_speed
+    if snake.direction == 'left':
+        snake.snakex = snake.snakex - snake.mov_speed
+    if snake.direction == 'up':
+        snake.snakey = snake.snakey - snake.mov_speed
+    if snake.direction == 'down':
+        snake.snakey = snake.snakey + snake.mov_speed
+    snake.drawSelf(screen, BLUE)
+    snake.detectWall(WINDOWWIDTH,WINDOWHEIGHT)
+    #hit = detectCollision(snakex,snakey,WINDOWWIDTH,WINDOWHEIGHT,snake.boxsize)
+    #if hit != None:
+    #    snakex = hit[0]
+    #    snakey = hit[1]
     pygame.display.update()
     FPSCLOCK.tick(FPS)
