@@ -27,5 +27,4 @@ def drawGrid( WINDOWWIDTH, WINDOWHEIGHT,screen,boxsize):
     
         teller = teller + 1
 
-        print "Done %d" % teller
         pygame.display.update()
