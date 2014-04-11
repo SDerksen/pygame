@@ -24,10 +24,10 @@ class Snake(object):
         self.snakey = 0
         self.mov_speed = self.boxsize
         self.direction = 'right'
+        
 
     def drawSelf(self,screen, color):
         pygame.draw.rect(screen, BLUE, (self.snakex, self.snakey, self.boxsize, self.boxsize))
-
         
     def detectWall(self, windowx, windowy):
         if self.snakex > windowx - self.boxsize:
