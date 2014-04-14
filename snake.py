@@ -3,7 +3,7 @@ from pygame.locals import *
 
 pygame.init()
 
-FPS = 30
+FPS = 10
 FPSCLOCK = pygame.time.Clock()
 
 WINDOWWIDTH = 1020
@@ -17,17 +17,28 @@ RED   = (255,  0,  0)
 BLUE  = (  0,  0,255)
 BLACK = (  0,  0,  0)
 
+
 class Snake(object):
     def __init__(self):
         self.boxsize = 20
-        self.snakex = 000
-        self.snakey = 0
+        self.snakex = WINDOWWIDTH / 2
+        self.snakey = WINDOWHEIGHT / 2
         self.mov_speed = self.boxsize
         self.direction = 'right'
-        
+        self.startlength = 4
+        self.pieces = []
+        self.pieces.append(self.startlength)
+
+    def getPieces(self):
+        for n in range(0, len(self.pieces)):
+            self.pieces = self.pieces + 1
+            print self.pieces
+        return self.pieces
 
     def drawSelf(self,screen, color):
-        pygame.draw.rect(screen, BLUE, (self.snakex, self.snakey, self.boxsize, self.boxsize))
+        for i in snake.getPieces():
+            pygame.draw.rect(screen, BLUE, ( self.snakex, self.snakey, self.boxsize, self.boxsize))
+            print "Drew piece nr: $r" % i
         
     def detectWall(self, windowx, windowy):
         if self.snakex > windowx - self.boxsize:
@@ -44,9 +55,9 @@ class Snake(object):
             return self.snakex, self.snakey
 
 snake = Snake()
-grid.drawGrid(WINDOWWIDTH, WINDOWHEIGHT,screen,snake.boxsize)
+#grid.drawGrid(WINDOWWIDTH, WINDOWHEIGHT,screen,snake.boxsize)
 
-
+snake.getPieces()
 while True:
     for event in pygame.event.get():
         key = pygame.key.get_pressed()
@@ -70,6 +81,7 @@ while True:
         snake.snakey = snake.snakey - snake.mov_speed
     if snake.direction == 'down':
         snake.snakey = snake.snakey + snake.mov_speed
+    screen.fill((BLACK))
     snake.drawSelf(screen, BLUE)
     snake.detectWall(WINDOWWIDTH,WINDOWHEIGHT)
     #hit = detectCollision(snakex,snakey,WINDOWWIDTH,WINDOWHEIGHT,snake.boxsize)
