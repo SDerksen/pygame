@@ -3,7 +3,7 @@ from pygame.locals import *
 
 pygame.init()
 
-FPS = 10
+FPS = 1
 FPSCLOCK = pygame.time.Clock()
 
 WINDOWWIDTH = 1020
@@ -21,24 +21,21 @@ BLACK = (  0,  0,  0)
 class Snake(object):
     def __init__(self):
         self.boxsize = 20
-        self.snakex = WINDOWWIDTH / 2
-        self.snakey = WINDOWHEIGHT / 2
+        self.snakex = WINDOWWIDTH / 2 - 10
+        self.snakey = WINDOWHEIGHT / 2 
         self.mov_speed = self.boxsize
         self.direction = 'right'
-        self.startlength = 4
-        self.pieces = []
-        self.pieces.append(self.startlength)
-
-    def getPieces(self):
-        for n in range(0, len(self.pieces)):
-            self.pieces = self.pieces + 1
-            print self.pieces
-        return self.pieces
+        self.startlength = 6
+        self.pieces = self.startlength
 
     def drawSelf(self,screen, color):
-        for i in snake.getPieces():
-            pygame.draw.rect(screen, BLUE, ( self.snakex, self.snakey, self.boxsize, self.boxsize))
-            print "Drew piece nr: $r" % i
+        blax = self.snakex
+        for i in range(self.pieces):
+            print i
+            pygame.draw.rect(screen, color, ( blax, self.snakey, self.boxsize, self.boxsize ))#self.snakex, self.snakey, self.boxsize, self.boxsize))
+            blax = blax + self.boxsize
+            print blax
+            print "Drew piece nr: %r" % i
         
     def detectWall(self, windowx, windowy):
         if self.snakex > windowx - self.boxsize:
@@ -55,9 +52,8 @@ class Snake(object):
             return self.snakex, self.snakey
 
 snake = Snake()
-#grid.drawGrid(WINDOWWIDTH, WINDOWHEIGHT,screen,snake.boxsize)
 
-snake.getPieces()
+snake.drawSelf(screen, BLUE)
 while True:
     for event in pygame.event.get():
         key = pygame.key.get_pressed()
@@ -83,6 +79,7 @@ while True:
         snake.snakey = snake.snakey + snake.mov_speed
     screen.fill((BLACK))
     snake.drawSelf(screen, BLUE)
+    #grid.drawGrid(WINDOWWIDTH, WINDOWHEIGHT,screen,snake.boxsize)
     snake.detectWall(WINDOWWIDTH,WINDOWHEIGHT)
     #hit = detectCollision(snakex,snakey,WINDOWWIDTH,WINDOWHEIGHT,snake.boxsize)
     #if hit != None:
